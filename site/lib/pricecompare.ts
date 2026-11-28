@@ -6,8 +6,8 @@ export const TABLE = "hub_price_comparison";
 
 export type Row = {
   entity: string; grid: string; node: string;
-  dam_avg_price?: number; dam_negative_hours_share_pct?: number; dam_above_200_hours_share_pct?: number; dam_day_spread_top4_bottom4?: number; dam_hours_held?: number; dam_hours_in_window?: number; dam_basis?: string;
-  rtm_avg_price?: number; rtm_negative_hours_share_pct?: number; rtm_above_200_hours_share_pct?: number; rtm_day_spread_top4_bottom4?: number; rtm_hours_held?: number; rtm_hours_in_window?: number; rtm_basis?: string;
+  dam_avg_price?: number; dam_load_weighted_avg_price?: number; dam_hours_load_weighted?: number; dam_negative_hours_share_pct?: number; dam_above_200_hours_share_pct?: number; dam_day_spread_top4_bottom4?: number; dam_hours_held?: number; dam_hours_in_window?: number; dam_basis?: string;
+  rtm_avg_price?: number; rtm_load_weighted_avg_price?: number; rtm_hours_load_weighted?: number; rtm_negative_hours_share_pct?: number; rtm_above_200_hours_share_pct?: number; rtm_day_spread_top4_bottom4?: number; rtm_hours_held?: number; rtm_hours_in_window?: number; rtm_basis?: string;
   grid_carbon_intensity?: number; grid_carbon_days_held: number; grid_carbon_days_due: number;
 };
 export type Hidden = { entity: string; grid: string; node: string; reason: string };
@@ -20,6 +20,9 @@ export const PERIODS = ["year", "month"] as const;
 export const MARKETS = [{ slug: "dam", name: "Day-ahead" }, { slug: "rtm", name: "Real-time" }] as const;
 export const MEASURES = [
   { slug: "avg", field: "avg_price", name: "Average price", unit: "USD per MWh", first: "asc" },
+  // session 11407 (chain 770, the ruling readied for finding 3 of docs/reviews/prices-model-audit-2026-11-26.md): beside the
+  // simple mean, each hour weighted by the grid's own load in that hour; a row without it reads "not held"
+  { slug: "lw", field: "load_weighted_avg_price", name: "Load-weighted average price", unit: "USD per MWh", first: "asc" },
   { slug: "neg", field: "negative_hours_share_pct", name: "Hours below zero", unit: "percent", first: "desc" },
   { slug: "high", field: "above_200_hours_share_pct", name: "Hours above USD 200", unit: "percent", first: "desc" },
   { slug: "spread", field: "day_spread_top4_bottom4", name: "Spread, dearest four hours less cheapest four", unit: "USD per MWh", first: "desc" },

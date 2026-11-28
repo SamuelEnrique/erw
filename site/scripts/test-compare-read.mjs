@@ -93,7 +93,8 @@ for (const q of [{}, { period: "year", market: "rtm", sort: "neg" }, { period: "
   ok(!Object.keys(g2).some((k) => k.startsWith("ab|b|") || k.startsWith("ab|diff|")) && g2["ab|a|dam|avg"] === "34.43" && (h2.match(/data-license-held="hub_price_comparison"/g) ?? []).length === 6 * 2 + 11,
     "row 3: a held B is \"license needed\" in each of its 11 cells, and no B less A");
   const h3 = await draw({ period: "year", a: "caiso:TH_ZP26_GEN-APND", b: "spp:SPPNORTH_HUB" }), t3 = text(h3);
-  ok(t3.includes("A: caiso:TH_ZP26_GEN-APND") && (t3.match(/not in this period/g) ?? []).length === 11 && marked(h3)["ab|b|carbon"] === undefined,
+  // session 11407: 13, the load-weighted average adding a line to each market (11 before)
+  ok(t3.includes("A: caiso:TH_ZP26_GEN-APND") && (t3.match(/not in this period/g) ?? []).length === 13 && marked(h3)["ab|b|carbon"] === undefined,
     "row 3: a zone or hub held only in the month, picked in the twelve months, says \"not in this period\"; SPP's carbon over the year is \"not held\"");
   const h4 = await draw({ a: "<b>", b: "" });
   ok(h4.includes('data-ab-empty="1"') && !h4.includes('data-ab-table="1"'), "row 3: no pick, no table: the line that asks for A and B");
@@ -121,7 +122,7 @@ for (const q of [{}, { period: "year", market: "rtm", sort: "neg" }, { period: "
   ok(sppYear.includes('<span title="Fewer than 95 percent of the period&#x27;s hours are held') && !/<span class="text-muted">not held<\/span>/.test(sppYear), "row 13: \"not held\" is in ink, its reason on hover");
   ok(html.includes('<p class="mt-2 max-w-3xl text-xs">Grids in this view:'), "row 13: the line of grids is in ink");
   // the upgrade drops nothing
-  ok(html.includes('data-not-a-site="1"') && html.includes('data-summary="1"') && (html.match(/data-sort="/g) ?? []).length === 5, "kept: a hub is not a site, the sentence, five headings that sort");
+  ok(html.includes('data-not-a-site="1"') && html.includes('data-summary="1"') && (html.match(/data-sort="/g) ?? []).length === 6, "kept: a hub is not a site, the sentence, six headings that sort (session 11407: the load-weighted average joins the five)");
   ok(file.held_not_shown.every((h) => html.includes(`data-hidden="${h.entity}"`)) && html.includes('data-not-held="PJM"'), "kept: MISO's 8 hubs held, not shown, and PJM not held");
   for (const s of ["The price at a site.", "A delivered price:", "Next year.", "The carbon of the power a site would take.", "Whether power can be had there at all:", "How it is computed", "Decisions on this page", "Built 2026-"]) ok(t.includes(s), `kept: "${s}"`);
   const { shown } = split("year");

@@ -23,6 +23,9 @@ For each hub or zone (entity <iso>:<node>), each market (dam: day-ahead; rtm: re
     <m>_daily_spread_mean_top4_bottom4 USD/MWh  (session 7051) the mean over the window's whole local days of each day's four
                                                 dearest hours less its four cheapest; <m>_daily_spread_days the days used
     <m>_hours_held, <m>_hours_in_window   count
+    <m>_load_weighted_avg_price       USD/MWh   (session 11407) the hourly prices weighted by the grid's own hourly load (LOAD),
+                                                over the hours holding both, when they are at least 95 percent of the
+                                                window; <m>_hours_load_weighted the hours used
 and once per entity and window, the carbon intensity of its grid's generation:
     grid_carbon_intensity             kgCO2/MWh the mean of the daily intensities held (carbon_intensity_daily)
     grid_carbon_days_held             count
@@ -70,6 +73,12 @@ RTM_VARS = {"lmp_rtm_15m_mean", "spp_rtm", "lmp_rtm"}
 NEAR_HOURS = 0.95
 NEAR_DAYS = 0.90
 HIGH = 200.0
+# Session 11407 (chain 770, the ruling readied for finding 3 of docs/reviews/prices-model-audit-2026-11-26.md): each
+# public grid's own hourly load, (table, entity, variable), to weight a market's hourly prices by beside the simple mean.
+# A grid with none here, or whose table is not on the machine, has no load-weighted average.
+LOAD = {"ercot": ("ercot_zone_load_hourly", "ercot:system", "load"),        # ERCOT's system load
+        "caiso": ("caiso_area_load_hourly", "caiso:system", "load"),        # CAISO's CA ISO-TAC area
+        "spp": ("eia930_all_demand", "eia930:SWPP", "demand_mw")}           # SPP's demand as reported to EIA (EIA-930)
 
 
 def licenses():
@@ -152,6 +161,39 @@ def measures(h, tz):
     return out
 
 
+def load_series(in_dir, iso, since):
+    """A grid's own hourly load (LOAD) from `since` (UTC), a Series by UTC hour; an hour held twice (a repeated autumn
+    hour) is their mean. None when the grid has no load here or its table is not on the machine."""
+    if iso not in LOAD:
+        return None
+    table, entity, variable = LOAD[iso]
+    path = os.path.join(in_dir, f"{table}.csv")
+    if not os.path.exists(path):
+        return None
+    got = []
+    for chunk in pd.read_csv(path, skiprows=ip.header_rows(path), usecols=["entity", "variable", "ts_utc", "value"], chunksize=500_000):
+        chunk = chunk[(chunk["entity"] == entity) & (chunk["variable"] == variable) & (chunk["ts_utc"] >= since) & chunk["value"].notna()]
+        if len(chunk):
+            got.append(chunk)
+    if not got:
+        return None
+    d = pd.concat(got)
+    s = pd.Series(d["value"].astype(float).values, index=pd.to_datetime(d["ts_utc"], utc=True))
+    return s.groupby(s.index.floor("h")).mean()
+
+
+def load_weighted(h, load, n):
+    """Session 11407: the mean of the hourly prices h weighted by the grid's load in the same hours, over the hours that
+    hold both, written only when those are at least NEAR_HOURS of the window's n hours (nothing filled). {} otherwise."""
+    if load is None:
+        return {}
+    both = h.index.intersection(load.index)
+    w = load.reindex(both)
+    if len(both) < NEAR_HOURS * n or float(w.sum()) <= 0:
+        return {}
+    return {"load_weighted_avg_price": round(float((h.reindex(both) * w).sum() / w.sum()), 2), "hours_load_weighted": int(len(both))}
+
+
 def carbon(in_dir, ba, start, end):
     """The mean of a grid's daily carbon intensity of generation over [start, end) (dates), with the days held and due."""
     path = os.path.join(in_dir, "carbon_intensity_daily.csv")
@@ -195,6 +237,7 @@ def build(x, in_dir, end_month, hidden, log):
     end = (pd.Period(end_month) + 1).strftime("%Y-%m-01")
     windows = {"year": ((pd.Period(end_month) - 11).strftime("%Y-%m-01"), end, "P1Y"), "month": (f"{end_month}-01", end, "P1M")}
     rows, view, held_not_shown, skipped = [], {"year": [], "month": []}, [], []
+    loads = {}  # session 11407: each grid's own hourly load, read once
     for entity, e in x.groupby("entity"):
         iso, node = entity.split(":", 1)
         if iso in hidden:
@@ -223,6 +266,12 @@ def build(x, in_dir, end_month, hidden, log):
                     skipped.append(f"{entity} {side} {wname}: {len(h):,} of {n:,} hours")
                     continue
                 m.update(hours_held=int(len(h)), hours_in_window=n)
+                if iso not in loads:
+                    loads[iso] = load_series(in_dir, iso, windows["year"][0])
+                lw = load_weighted(h, loads[iso], n)
+                if not lw and loads[iso] is not None:
+                    skipped.append(f"{entity} {side} {wname} load-weighted: {len(h.index.intersection(loads[iso].index)):,} of {n:,} hours hold both price and load")
+                m.update(lw)
                 rec[f"{side}_basis"] = basis
                 for k, v in m.items():
                     unit = "pct" if k.endswith("pct") else "count" if (k.startswith("hours") or k.endswith("_days")) else "USD/MWh"
@@ -283,11 +332,11 @@ def main(argv=None):
         "Energy Research Warehouse (ERW): where power is cheap, every public hub and zone price held, compared over twelve months and over the last whole month (session 96)",
         "Shape: series (docs/datastandard.md v0). Entity <iso>:<node>. freq P1Y: the twelve months from ts_utc; freq P1M: the month of ts_utc; both in the grid's "
         "local time. Variables, for dam (day-ahead) and rtm (real-time): _avg_price, _negative_hours_share_pct, _above_200_hours_share_pct, "
-        "_day_spread_top4_bottom4, _hours_held, _hours_in_window; and grid_carbon_intensity, grid_carbon_days_held. Definitions: docs/methods/hub_price_comparison.md.",
+        "_day_spread_top4_bottom4, _hours_held, _hours_in_window, _load_weighted_avg_price, _hours_load_weighted; and grid_carbon_intensity, grid_carbon_days_held. Definitions: docs/methods/hub_price_comparison.md.",
         f"Window: twelve months {year[0]} to {year[1]} (exclusive), and the month {month[0]} to {month[1]} (exclusive). A market of a hub is written when at least "
         f"{NEAR_HOURS:.0%} of the window's hours are held; the carbon intensity when at least {NEAR_DAYS:.0%} of its days are.",
         f"Retrieved: {run_id} (UTC) by warehouse/derived/price_compare.py", f"Run log: warehouse/output/logs/price_compare_{run_id}.log",
-        f"Derived from: {'; '.join(t for t in TABLES if t not in internal)}; carbon_intensity_daily",
+        f"Derived from: {'; '.join(t for t in TABLES if t not in internal)}; carbon_intensity_daily; the grids' hourly load ({'; '.join(sorted({v[0] for v in LOAD.values()}))})",
         f"Source: {SOURCE} from each grid operator's public price reports (CAISO OASIS; ERCOT NP4-180-ER, NP4-190-CD, NP6-785-ER, NP6-905-CD; ISO-NE hourly and "
         "five-minute LMPs; NYISO zonal LBMPs; SPP LMP by settlement location) and from EIA-930 emissions",
         "Not derived from: " + ("; ".join(f"{g} ({r})" for g, r in hidden.items()) or "nothing") + ". PJM: no hub or zone price is held.",

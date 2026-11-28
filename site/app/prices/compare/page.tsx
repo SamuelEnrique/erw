@@ -98,6 +98,7 @@ function AandB({ file, c, shown, held, a, b }: { file: CompareFile; c: ReturnTyp
     <tr key={key} className="border-b border-rule"><th scope="row" className="px-3 py-1.5 text-left font-normal">{head}</th>
       <td className={td}>{valueCell(pa, `ab|a|${key}`, v, fmt)}</td><td className={td}>{valueCell(pb, `ab|b|${key}`, v, fmt)}</td><td className={td}>{diff(`ab|diff|${key}`, v, fmt)}</td></tr>
   );
+  const carbonM = MEASURES.find((m) => m.slug === "carbon")!;  // session 11407: by slug, not by place
   const hours = (m: "dam" | "rtm") => (r: Row) => (m === "dam" ? r.dam_hours_held : r.rtm_hours_held);
   return (
     <ToolSection title="A and B, side by side" id="ab">
@@ -132,7 +133,7 @@ function AandB({ file, c, shown, held, a, b }: { file: CompareFile; c: ReturnTyp
                   line(`${m.slug}|hours`, "Hours held", hours(m.slug), (x) => x.toLocaleString("en-US")),
                 ])}
                 <tr key="hc" className="border-b border-rule bg-paper"><th scope="colgroup" colSpan={4} className="px-3 py-1.5 text-left font-semibold">The grid</th></tr>
-                {line("carbon", `${MEASURES[4].name}, ${MEASURES[4].unit}`, (r) => r.grid_carbon_intensity)}
+                {line("carbon", `${carbonM.name}, ${carbonM.unit}`, (r) => r.grid_carbon_intensity)}
               </tbody>
             </table>
           </div>
@@ -160,7 +161,8 @@ export default async function Compare({ searchParams }: { searchParams: Promise<
   const item = (on: boolean) => `no-underline ${on ? "font-semibold text-accent" : "text-ink hover:text-accent"}`;
   const by = (slug: string, dir: "asc" | "desc") => ordered(all, { ...c, sort: MEASURES.find((m) => m.slug === slug)!, dir })[0];
   const cheapest = by("avg", "asc"), dearest = by("avg", "desc"), negative = by("neg", "desc"), widest = by("spread", "desc");
-  const avg = MEASURES[0], neg = MEASURES[1], spread = MEASURES[3];
+  const slugM = (s: string) => MEASURES.find((m) => m.slug === s)!;  // session 11407: by slug, since the load-weighted average sits second
+  const avg = slugM("avg"), neg = slugM("neg"), spread = slugM("spread");
   const cell = (r: Row, m: (typeof MEASURES)[number]) => { const v = valueOf(r, c.market, m); return v === undefined ? NOT : <N k={`${r.entity}|${m.slug}`}>{two(v)}</N>; };
   const grids = [...new Set(rows.map((r) => r.grid))];
   const w = file.windows[c.period];
@@ -233,13 +235,13 @@ export default async function Compare({ searchParams }: { searchParams: Promise<
               </ToolSection>
 
               <ToolSection title="The table" id="table"
-                note={<>{market.name} prices by the hour, in each grid&apos;s own clock time (daylight saving included), from {w.start} to {w.end} (the end not included). <span data-avg-said="1">The average price counts every hour held once: what a flat load, the same every hour, would pay at the hub or zone. A load shaped like the grid&apos;s own, heavier in the dearer hours, pays more than this average.</span> Hours below zero and above USD 200 are shares of the hours held. The spread is read off the average day: the mean price of each hour of the day over the period, its four dearest hours less its four cheapest.
+                note={<>{market.name} prices by the hour, in each grid&apos;s own clock time (daylight saving included), from {w.start} to {w.end} (the end not included). <span data-avg-said="1">The average price counts every hour held once: what a flat load, the same every hour, would pay at the hub or zone. A load shaped like the grid&apos;s own, heavier in the dearer hours, pays more than this average.</span> <span data-lw-said="1">The load-weighted average weights each hour by the grid&apos;s own load in that hour (ERCOT&apos;s system load, CAISO&apos;s CA ISO-TAC area, SPP&apos;s demand as reported to EIA), over the hours that hold both a price and a load; it is given when those are at least {Math.round(file.near_hours * 100)} percent of the period&apos;s hours, and reads &quot;not held&quot; otherwise.</span> Hours below zero and above USD 200 are shares of the hours held. The spread is read off the average day: the mean price of each hour of the day over the period, its four dearest hours less its four cheapest.
                   It is not the mean of each day&apos;s own spread, which is larger, since the dearest and the cheapest hours move from day to day.
                   The carbon intensity is the grid&apos;s generation over the same period (kg of CO2 per MWh), not the hub&apos;s. A heading sorts by its column.</>}>
                 <ToolTable minWidth={700} caption={`Hub and zone prices compared, ${market.name.toLowerCase()}, ${when}`}
                   head={["Hub or zone", ...MEASURES.map((m) => (
                     <Link key={m.slug} href={`${href({ ...c, ...keep, sort: m.slug, dir: m.slug === c.sort.slug ? (c.dir === "asc" ? "desc" : "asc") : undefined })}#table`} className="underline" data-sort={m.slug}>
-                      {m.slug === "spread" ? "Spread, 4 hours" : m.slug === "carbon" ? "Grid carbon" : m.slug === "high" ? "Hours above 200" : m.name}{m.slug === c.sort.slug ? (c.dir === "asc" ? " ↑" : " ↓") : ""}
+                      {m.slug === "spread" ? "Spread, 4 hours" : m.slug === "lw" ? "Load-weighted average" : m.slug === "carbon" ? "Grid carbon" : m.slug === "high" ? "Hours above 200" : m.name}{m.slug === c.sort.slug ? (c.dir === "asc" ? " ↑" : " ↓") : ""}
                     </Link>)), "Hours held"]}
                   rows={[...rows.map((r) => ({ key: r.entity, cells: [nameCell(r), ...MEASURES.map((m) => cell(r, m)),
                     <span key="h"><N k={`${r.entity}|hours`}>{(c.market === "dam" ? r.dam_hours_held! : r.rtm_hours_held!).toLocaleString("en-US")}</N> of {(c.market === "dam" ? r.dam_hours_in_window! : r.rtm_hours_in_window!).toLocaleString("en-US")}</span>] })),
@@ -263,7 +265,7 @@ export default async function Compare({ searchParams }: { searchParams: Promise<
 
           <Fold title="How it is computed">
             <p className="max-w-3xl">From each grid operator&apos;s public day-ahead and real-time prices at its hubs and zones. A real-time hour is the mean of its four 15-minute prices and is counted only when all four are held; ISO-NE&apos;s is its own hourly report.
-              The average is the simple mean of the hours held, each hour once, not weighted by the grid&apos;s load or by any buyer&apos;s.
+              The average is the simple mean of the hours held, each hour once, not weighted by the grid&apos;s load or by any buyer&apos;s. Beside it, the load-weighted average weights each hour by the grid&apos;s own load, never by a buyer&apos;s.
               A hub is in a period when at least {Math.round(file.near_hours * 100)} percent of the period&apos;s hours are held; nothing is filled. The full method: <SiteLink href={METHOD}>where power is cheap</SiteLink>.</p>
           </Fold>
           <Fold title="What this does not tell you">
