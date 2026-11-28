@@ -471,6 +471,14 @@ def load_places(P, cov):
                keep=lambda c: (c.variable == "demand_mw") & (c.ts_utc >= P.prior_start) & (c.ts_utc < P.end))
     dem["ba"] = dem.entity.str.replace("eia930:", "", regex=False)
     dem["v"] = num(dem.value)
+    # a reader's case of session 11200: EIA-930 holds hours that did not happen (TVA at 44,377 MW on 20 October 2026,
+    # against 35,086 the year before), and a peak is the one hour most likely to be one of them. The warehouse's own
+    # rule for impossible hours (warehouse/derived/impossible_hours.py, docs/methods/impossible_hours.md) blanks them
+    # before any count reads demand, as the forecast and the demand growth table do
+    sys.path.insert(0, os.path.join(ROOT, "warehouse", "derived"))
+    import impossible_hours as ih
+    dem = dem.sort_values(["ba", "ts_utc"]).reset_index(drop=True)
+    dem["v"] = dem.groupby("ba", group_keys=False).v.apply(lambda s: ih.screen(s.reset_index(drop=True)).set_axis(s.index))
     reg = read("eia930_region_hourly", ["entity", "variable", "ts_utc", "value"],
                keep=lambda c: (c.ts_utc >= P.prior_start) & (c.ts_utc < P.end))
     reg["code"] = reg.entity.str.replace("eia930:", "", regex=False)
